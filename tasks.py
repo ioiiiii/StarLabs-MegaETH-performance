@@ -1,4 +1,4 @@
-TASKS = ["GTE_SWAPS"]
+TASKS = ["FAUCET"]
 
 
 FAUCET = ["faucet"]
