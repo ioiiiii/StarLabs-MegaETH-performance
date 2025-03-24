@@ -27,7 +27,7 @@ A powerful and flexible Ethereum Layer 2 automation tool with multiple features 
   - XL Meme (Meme token trading)
 
 ## 📋 Requirements
-- Python 3.8 or higher
+- Python 3.11 or higher
 - Private keys for Ethereum wallets
 - (Optional) Proxies for enhanced security
 - Solvium API key for captcha solving
