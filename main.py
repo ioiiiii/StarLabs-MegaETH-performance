@@ -16,7 +16,6 @@ if platform.system() == "Windows":
 async def main():
     show_logo()
     show_dev_info()
-    # check_version("StarLabs-0G", "StarLabs-0G")
     
     configuration()
     await start()

@@ -140,7 +140,7 @@ class Start:
             # Отправляем сообщение в Telegram только в конце всей работы
             if self.config.SETTINGS.SEND_TELEGRAM_LOGS:
                 message = (
-                    f"🤖 0G Bot Report\n\n"
+                    f"🐰 MegaETH StarLabs Bot Report\n\n"
                     f"💳 Wallet: {self.account_index} | <code>{self.private_key[:6]}...{self.private_key[-4:]}</code>\n\n"
                 )
 
