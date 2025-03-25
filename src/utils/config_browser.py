@@ -328,6 +328,18 @@ def create_required_directories():
                         <i class="fas fa-ellipsis-h"></i>
                         <span>Others</span>
                     </div>
+                    <div class="sidebar-item" data-section="swaps">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Swaps</span>
+                    </div>
+                    <div class="sidebar-item" data-section="stakings">
+                        <i class="fas fa-coins"></i>
+                        <span>Stakings</span>
+                    </div>
+                    <div class="sidebar-item" data-section="mints">
+                        <i class="fas fa-hammer"></i>
+                        <span>Mints</span>
+                    </div>
                 </div>
             </div>
             
@@ -1286,7 +1298,7 @@ function collectFormData() {
         if (element.type === 'checkbox') {
             current[lastKey] = element.checked;
         } else if (element.classList.contains('tags-input')) {
-            // Обработка полей с тегами (например, для RPCS)
+            // Обработка полей с тегами
             const tags = Array.from(element.querySelectorAll('.tag-text'))
                 .map(tag => tag.textContent.trim());
             current[lastKey] = tags;
@@ -1295,27 +1307,31 @@ function collectFormData() {
             if (!current[rangeKey]) {
                 current[rangeKey] = [0, 0];
             }
-            current[rangeKey][0] = parseInt(element.value);
+            current[rangeKey][0] = parseInt(element.value, 10);
         } else if (element.classList.contains('range-max')) {
             const rangeKey = lastKey.replace('_MAX', '');
             if (!current[rangeKey]) {
                 current[rangeKey] = [0, 0];
             }
-            current[rangeKey][1] = parseInt(element.value);
+            current[rangeKey][1] = parseInt(element.value, 10);
         } else if (element.classList.contains('list-input')) {
             // Для списков (разделенных запятыми)
-            current[lastKey] = element.value.split(',')
+            const items = element.value.split(',')
                 .map(item => item.trim())
                 .filter(item => item !== '');
                 
             // Преобразуем в числа, если это числовой список
             if (element.dataset.type === 'number-list') {
-                current[lastKey] = current[lastKey].map(item => parseInt(item));
+                current[lastKey] = items.map(item => parseInt(item, 10));
+            } else {
+                current[lastKey] = items;
             }
         } else {
             // Для обычных полей
             if (element.dataset.type === 'number') {
-                current[lastKey] = parseInt(element.value);
+                current[lastKey] = parseInt(element.value, 10);
+            } else if (element.dataset.type === 'float') {
+                current[lastKey] = parseFloat(element.value);
             } else {
                 current[lastKey] = element.value;
             }
@@ -1336,7 +1352,10 @@ function renderConfig(config) {
         'flow': { key: 'FLOW', title: 'Flow', icon: 'exchange-alt' },
         'faucet': { key: 'FAUCET', title: 'Faucet and Captcha', icon: 'robot' },
         'rpcs': { key: 'RPCS', title: 'RPCs', icon: 'network-wired' },
-        'others': { key: 'OTHERS', title: 'Others', icon: 'ellipsis-h' }
+        'others': { key: 'OTHERS', title: 'Others', icon: 'ellipsis-h' },
+        'swaps': { key: 'SWAPS', title: 'Swaps', icon: 'sync-alt' },
+        'stakings': { key: 'STAKINGS', title: 'Stakings', icon: 'coins' },
+        'mints': { key: 'MINTS', title: 'Mints', icon: 'hammer' }
     };
     
     // Создаем все секции
@@ -1412,6 +1431,59 @@ function renderConfig(config) {
                     { key: 'SKIP_SSL_VERIFICATION', value: config[key]['SKIP_SSL_VERIFICATION'] },
                     { key: 'USE_PROXY_FOR_RPC', value: config[key]['USE_PROXY_FOR_RPC'] }
                 ], key);
+            } else if (key === 'SWAPS') {
+                // BEBOP
+                if (config[key]['BEBOP']) {
+                    createCard(cardsContainer, 'Bebop Swap Settings', 'exchange', 
+                        Object.entries(config[key]['BEBOP']).map(([k, v]) => ({ 
+                            key: k, 
+                            value: v, 
+                            isRange: Array.isArray(v) && v.length === 2 && typeof v[0] === 'number',
+                            isBoolean: typeof v === 'boolean'
+                        })), 
+                        `${key}.BEBOP`
+                    );
+                }
+                
+                // GTE
+                if (config[key]['GTE']) {
+                    createCard(cardsContainer, 'GTE Swap Settings', 'sync', 
+                        Object.entries(config[key]['GTE']).map(([k, v]) => ({ 
+                            key: k, 
+                            value: v, 
+                            isRange: Array.isArray(v) && v.length === 2 && typeof v[0] === 'number',
+                            isBoolean: typeof v === 'boolean'
+                        })), 
+                        `${key}.GTE`
+                    );
+                }
+            } else if (key === 'STAKINGS') {
+                // TEKO_FINANCE
+                if (config[key]['TEKO_FINANCE']) {
+                    createCard(cardsContainer, 'Teko Finance Settings', 'chart-line', 
+                        Object.entries(config[key]['TEKO_FINANCE']).map(([k, v]) => ({ 
+                            key: k, 
+                            value: v, 
+                            isRange: Array.isArray(v) && v.length === 2 && typeof v[0] === 'number',
+                            isNumber: typeof v === 'number' && !Array.isArray(v),
+                            isBoolean: typeof v === 'boolean'
+                        })), 
+                        `${key}.TEKO_FINANCE`
+                    );
+                }
+            } else if (key === 'MINTS') {
+                // XL_MEME
+                if (config[key]['XL_MEME']) {
+                    createCard(cardsContainer, 'XL Meme Settings', 'fire', 
+                        Object.entries(config[key]['XL_MEME']).map(([k, v]) => ({ 
+                            key: k, 
+                            value: v, 
+                            isRange: Array.isArray(v) && v.length === 2,
+                            isList: Array.isArray(v) && k === 'CONTRACTS_TO_BUY'
+                        })), 
+                        `${key}.XL_MEME`
+                    );
+                }
             }
         }
         
@@ -1437,17 +1509,15 @@ function createCard(container, title, iconClass, fields, category) {
     
     cardDiv.appendChild(titleDiv);
     
-    fields.forEach(({ key, value, isList, isSpaceList }) => {
-        if (typeof value === 'boolean') {
+    fields.forEach(({ key, value, isList, isSpaceList, isRange, isBoolean, isNumber }) => {
+        if (isBoolean || typeof value === 'boolean') {
             createCheckboxField(cardDiv, key, value, `${category}.${key}`);
-        } else if (Array.isArray(value) && value.length === 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+        } else if (isRange || (Array.isArray(value) && value.length === 2 && typeof value[0] === 'number' && typeof value[1] === 'number')) {
             createRangeField(cardDiv, key, value, `${category}.${key}`);
-        } else if (Array.isArray(value) && isList) {
-            createTagsField(cardDiv, key, value, `${category}.${key}`, false);
-        } else if (Array.isArray(value) && isSpaceList) {
-            createTagsField(cardDiv, key, value, `${category}.${key}`, true);
-        } else if (Array.isArray(value)) {
-            createListField(cardDiv, key, value, `${category}.${key}`);
+        } else if (isList || (Array.isArray(value) && !isRange)) {
+            createTagsField(cardDiv, key, value, `${category}.${key}`, isSpaceList);
+        } else if (isNumber || typeof value === 'number') {
+            createTextField(cardDiv, key, value, `${category}.${key}`);
         } else {
             createTextField(cardDiv, key, value, `${category}.${key}`);
         }
@@ -1588,8 +1658,10 @@ function createTagsField(container, key, value, path, useSpaces) {
     
     // Добавляем существующие теги
     values.forEach(item => {
-        const tag = createTag(item.toString());
-        tagsContainer.appendChild(tag);
+        if (item !== null && item !== undefined) {
+            const tag = createTag(item.toString());
+            tagsContainer.appendChild(tag);
+        }
     });
     
     // Добавляем поле ввода для новых тегов
@@ -1599,7 +1671,7 @@ function createTagsField(container, key, value, path, useSpaces) {
     
     // Обработчик для добавления нового тега
     input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ' && useSpaces) {
+        if ((e.key === 'Enter') || (e.key === ' ' && useSpaces)) {
             e.preventDefault();
             const value = this.value.trim();
             if (value) {
