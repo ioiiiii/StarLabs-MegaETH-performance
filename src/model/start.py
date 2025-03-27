@@ -4,6 +4,8 @@ import primp
 import random
 import asyncio
 
+from src.model.offchain.cex.instance import CexWithdraw
+from src.model.onchain.bridges.crusty_swap.instance import CrustySwap
 from src.model.projects.mints.xl_meme.instance import XLMeme
 from src.model.projects.other.onchaingm.instance import OnchainGm
 from src.model.projects.stakings.teko_finance import TekoFinance
@@ -18,6 +20,7 @@ from src.utils.client import create_client
 from src.utils.config import Config
 from src.model.database.db_manager import Database
 from src.utils.telegram_logger import send_telegram_message
+from src.utils.reader import read_private_keys
 
 
 class Start:
@@ -38,6 +41,7 @@ class Start:
 
         self.wallet = Account.from_key(self.private_key)
         self.wallet_address = self.wallet.address
+        self.private_keys = read_private_keys("data/private_keys.txt")
 
     async def initialize(self):
         try:
@@ -274,6 +278,39 @@ class Start:
             )
             return await onchain_gm.GM()
 
+        if task == "crusty_refuel":
+            crusty_swap = CrustySwap(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+                self.proxy,
+                self.private_key,
+            )
+            return await crusty_swap.refuel()
+        
+        if task == "crusty_refuel_from_one_to_all":
+            crusty_swap = CrustySwap(
+                1,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                Account.from_key(self.private_keys[0]),
+                self.proxy,
+                self.private_keys[0],
+            )
+            private_keys = self.private_keys[1:]
+            return await crusty_swap.refuel_from_one_to_all(private_keys)
+        
+        elif task == "cex_withdrawal":
+            cex_withdrawal = CexWithdraw(
+                self.account_index,
+                self.private_key,
+                self.config,
+            )
+            return await cex_withdrawal.withdraw()
+        
         if task == "xl_meme":
             xl_meme = XLMeme(
                 self.account_index,

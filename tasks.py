@@ -1,7 +1,14 @@
-TASKS = ["FAUCET"]
+TASKS = ["CRUSTY_SWAP"]
 
 
 FAUCET = ["faucet"]
+
+CRUSTY_SWAP = [
+    # "cex_withdrawal",
+    "crusty_refuel",
+    # "crusty_refuel_from_one_to_all",
+]
+
 CAP_APP = ["cap_app"]
 BEBOP = ["bebop"]
 GTE_SWAPS = ["gte_swaps"]
@@ -56,6 +63,9 @@ BELOW ARE THE READY-MADE TASKS THAT YOU CAN USE:
 以下是您可以使用的现成任务：
 
 
+crusty_refuel - refuel MEGAETH at https://www.crustyswap.com/
+crusty_refuel_from_one_to_all - refuel MEGAETH from one to all wallets at https://www.crustyswap.com/
+cex_withdrawal - withdraw ETH from cex exchange (okx, bitget)
 faucet - faucet mega eth tokens (needs captcha)
 cap_app - mint cUSD at https://cap.app/testnet
 bebop - trade tokens at https://bebop.xyz/trade?network=megaeth&sell=ETH
