@@ -32,6 +32,8 @@ class FlowConfig:
 @dataclass
 class FaucetConfig:
     SOLVIUM_API_KEY: str
+    USE_CAPSOLVER: bool
+    CAPSOLVER_API_KEY: str
 
 
 @dataclass
@@ -164,6 +166,8 @@ class Config:
             ),
             FAUCET=FaucetConfig(
                 SOLVIUM_API_KEY=data["FAUCET"]["SOLVIUM_API_KEY"],
+                USE_CAPSOLVER=data["FAUCET"]["USE_CAPSOLVER"],
+                CAPSOLVER_API_KEY=data["FAUCET"]["CAPSOLVER_API_KEY"],
             ),
             RPCS=RpcsConfig(
                 MEGAETH=data["RPCS"]["MEGAETH"],

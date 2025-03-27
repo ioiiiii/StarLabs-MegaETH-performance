@@ -56,8 +56,10 @@ FLOW:
 
 FAUCET:
     # CHEAPEST CAPTCHA SOLVER - https://t.me/solvium_crypto_bot
-    SOLVIUM_API_KEY: xxxxxxxxxxxxxxxxxxxxxx
+    SOLVIUM_API_KEY: xxxxxxxxxxxxxxxxxx
 
+    USE_CAPSOLVER: false
+    CAPSOLVER_API_KEY: CAP-xxxxxxxxxxxxxxxx
 
 RPCS:
     MEGAETH: ["https://carrot.megaeth.com/rpc"]
