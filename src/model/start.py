@@ -41,7 +41,7 @@ class Start:
 
         self.wallet = Account.from_key(self.private_key)
         self.wallet_address = self.wallet.address
-        self.private_keys = read_private_keys("data/private_keys.txt")
+        
 
     async def initialize(self):
         try:
@@ -300,7 +300,8 @@ class Start:
                 self.proxy,
                 self.private_keys[0],
             )
-            private_keys = self.private_keys[1:]
+            all_private_keys = read_private_keys("data/private_keys.txt")
+            private_keys = all_private_keys[1:]
             return await crusty_swap.refuel_from_one_to_all(private_keys)
         
         elif task == "cex_withdrawal":
