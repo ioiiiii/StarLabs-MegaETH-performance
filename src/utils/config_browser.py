@@ -58,6 +58,8 @@ def load_config():
                 "SWAPS",
                 "STAKINGS",
                 "MINTS",
+                "EXCHANGES",
+                "CRUSTY_SWAP",
             ]
             for section in required_sections:
                 if section not in config:
@@ -98,6 +100,8 @@ def load_config():
             if "FAUCET" in config:
                 faucet_defaults = {
                     "SOLVIUM_API_KEY": "",
+                    "USE_CAPSOLVER": False,
+                    "CAPSOLVER_API_KEY": "",
                 }
 
                 for key, default_value in faucet_defaults.items():
@@ -192,7 +196,7 @@ def load_config():
             # Ensure CRUSTY_SWAP has required fields
             if "CRUSTY_SWAP" not in config:
                 config["CRUSTY_SWAP"] = {}
-                
+
             crusty_swap_defaults = {
                 "NETWORKS_TO_REFUEL_FROM": ["Arbitrum", "Optimism", "Base"],
                 "AMOUNT_TO_REFUEL": [0.0001, 0.00015],
@@ -202,39 +206,41 @@ def load_config():
                 "BRIDGE_ALL": False,
                 "BRIDGE_ALL_MAX_AMOUNT": 0.01,
             }
-            
+
             for key, default_value in crusty_swap_defaults.items():
                 if key not in config["CRUSTY_SWAP"]:
                     config["CRUSTY_SWAP"][key] = default_value
-            
+
             # Ensure EXCHANGES has required fields
             if "EXCHANGES" not in config:
                 config["EXCHANGES"] = {}
-                
+
             exchanges_defaults = {
                 "name": "OKX",
                 "apiKey": "",
                 "secretKey": "",
                 "passphrase": "",
-                "withdrawals": []
+                "withdrawals": [],
             }
-            
+
             for key, default_value in exchanges_defaults.items():
                 if key not in config["EXCHANGES"]:
                     config["EXCHANGES"][key] = default_value
-            
+
             # Ensure withdrawals array exists and has at least one item with defaults
             if not config["EXCHANGES"]["withdrawals"]:
-                config["EXCHANGES"]["withdrawals"] = [{
-                    "currency": "ETH",
-                    "networks": ["Arbitrum", "Optimism"],
-                    "min_amount": 0.0003,
-                    "max_amount": 0.0004,
-                    "max_balance": 0.005,
-                    "wait_for_funds": True,
-                    "max_wait_time": 99999,
-                    "retries": 3
-                }]
+                config["EXCHANGES"]["withdrawals"] = [
+                    {
+                        "currency": "ETH",
+                        "networks": ["Arbitrum", "Optimism"],
+                        "min_amount": 0.0003,
+                        "max_amount": 0.0004,
+                        "max_balance": 0.005,
+                        "wait_for_funds": True,
+                        "max_wait_time": 99999,
+                        "retries": 3,
+                    }
+                ]
 
             logger.info(f"Config loaded successfully")
             return config
@@ -247,12 +253,28 @@ def load_config():
 def save_config(config):
     """Сохранение конфигурации в YAML файл"""
     try:
+        # Убедимся, что раздел FAUCET существует и содержит все необходимые поля
+        if "FAUCET" not in config:
+            config["FAUCET"] = {}
+
+        if "SOLVIUM_API_KEY" not in config["FAUCET"]:
+            config["FAUCET"]["SOLVIUM_API_KEY"] = ""
+
+        if "USE_CAPSOLVER" not in config["FAUCET"]:
+            config["FAUCET"]["USE_CAPSOLVER"] = False
+
+        if "CAPSOLVER_API_KEY" not in config["FAUCET"]:
+            config["FAUCET"]["CAPSOLVER_API_KEY"] = ""
+
         with open(CONFIG_PATH, "w") as file:
             yaml.dump(config, file, default_flow_style=False, sort_keys=False)
+
+        logger.info(f"Configuration saved to {CONFIG_PATH}")
+        return True
     except Exception as e:
-        logger.error(f"Error saving config: {str(e)}")
+        logger.error(f"Error saving configuration: {str(e)}")
         logger.error(traceback.format_exc())
-        raise
+        return False
 
 
 @app.route("/")
@@ -1516,6 +1538,8 @@ function renderConfig(config) {
                 // Карточка для настроек Faucet
                 createCard(cardsContainer, 'Captcha Solvers', 'puzzle-piece', [
                     { key: 'SOLVIUM_API_KEY', value: config[key]['SOLVIUM_API_KEY'] },
+                    { key: 'USE_CAPSOLVER', value: config[key]['USE_CAPSOLVER'] },
+                    { key: 'CAPSOLVER_API_KEY', value: config[key]['CAPSOLVER_API_KEY'] },
                 ], key);
             } else if (key === 'RPCS') {
                 // Специальная обработка для RPCs
