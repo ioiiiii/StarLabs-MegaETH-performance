@@ -4,6 +4,7 @@ import primp
 import random
 import asyncio
 
+from src.model.projects.deploy.mintair.instance import Mintair
 from src.model.projects.mints.omnihub.instance import OmniHub
 from src.model.offchain.cex.instance import CexWithdraw
 from src.model.onchain.bridges.crusty_swap.instance import CrustySwap
@@ -343,7 +344,17 @@ class Start:
                 self.wallet,
             )
             return await omnihub.mint()
-            
+        
+        if task == "mintair":
+            mintair = Mintair(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+            )
+            return await mintair.deploy_timer_contract()
+        
         logger.error(f"{self.account_index} | Task {task} not found")
         return False
 
