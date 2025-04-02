@@ -17,6 +17,7 @@ ONCHAIN_GM = ["onchain_gm"]
 XL_MEME = ["xl_meme"]
 OMNIHUB = ["omnihub"]
 MINTAIR = ["mintair"]
+EASYNODE = ["easynode"]
 
 """
 EN:
@@ -77,4 +78,5 @@ onchain_gm - mint GM at https://onchaingm.com/
 xl_meme - buy memetokens at https://testnet.xlmeme.com/megaeth
 omnihub - mint NFT at https://omnihub.xyz/collections?chain=megaeth-testnet&sort_by=trending
 mintair - deploy timer contract at https://contracts.mintair.xyz/
+easynode - deploy counter contract at https://playground.easy-node.xyz/
 """

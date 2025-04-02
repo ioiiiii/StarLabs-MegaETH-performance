@@ -4,6 +4,7 @@ import primp
 import random
 import asyncio
 
+from src.model.projects.deploy.easynode.instance import EasyNode
 from src.model.projects.deploy.mintair.instance import Mintair
 from src.model.projects.mints.omnihub.instance import OmniHub
 from src.model.offchain.cex.instance import CexWithdraw
@@ -354,6 +355,16 @@ class Start:
                 self.wallet,
             )
             return await mintair.deploy_timer_contract()
+        
+        if task == "easynode":
+            easynode = EasyNode(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+            )
+            return await easynode.deploy_contract()
         
         logger.error(f"{self.account_index} | Task {task} not found")
         return False
