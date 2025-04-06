@@ -1,6 +1,5 @@
 TASKS = ["CRUSTY_SWAP"]
 
-
 FAUCET = ["faucet", "teko_faucet"]
 
 CRUSTY_SWAP = [
@@ -79,4 +78,7 @@ xl_meme - buy memetokens at https://testnet.xlmeme.com/megaeth
 omnihub - mint NFT at https://omnihub.xyz/collections?chain=megaeth-testnet&sort_by=trending
 mintair - deploy timer contract at https://contracts.mintair.xyz/
 easynode - deploy counter contract at https://playground.easy-node.xyz/
+hopnetwork - join waitlist at https://hopnetwork.xyz/
+owlto - deploy basic contract at https://owlto.finance/deploy/?chain=MegaTestnet
+rainmakr - buy meme token at https://rainmakr.xyz/en/rainai
 """
