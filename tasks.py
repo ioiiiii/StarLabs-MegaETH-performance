@@ -1,5 +1,6 @@
 TASKS = ["CRUSTY_SWAP"]
 
+
 FAUCET = ["faucet", "teko_faucet"]
 
 CRUSTY_SWAP = [
@@ -17,7 +18,10 @@ XL_MEME = ["xl_meme"]
 OMNIHUB = ["omnihub"]
 MINTAIR = ["mintair"]
 EASYNODE = ["easynode"]
-
+HOPNETWORK = ["hopnetwork"]
+OWLTO = ["owlto"]
+RAINMAKR = ["rainmakr"]
+RARIBLE = ["rarible"]
 """
 EN:
 You can create your own task with the modules you need 
@@ -81,4 +85,5 @@ easynode - deploy counter contract at https://playground.easy-node.xyz/
 hopnetwork - join waitlist at https://hopnetwork.xyz/
 owlto - deploy basic contract at https://owlto.finance/deploy/?chain=MegaTestnet
 rainmakr - buy meme token at https://rainmakr.xyz/en/rainai
+rarible - mint NFT at https://testnet.rarible.fun/collections/megaethtestnet/0xb8027dca96746f073896c45f65b720f9bd2afee7/drops
 """

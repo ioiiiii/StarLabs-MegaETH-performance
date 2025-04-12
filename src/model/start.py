@@ -4,6 +4,7 @@ import primp
 import random
 import asyncio
 
+from src.model.projects.mints.rarible.instance import Rarible
 from src.model.projects.swaps.rainmakr import Rainmakr
 from src.model.projects.deploy.owlto.instance import Owlto
 from src.model.projects.other.hopnetwork.instance import HopNetwork
@@ -400,6 +401,16 @@ class Start:
                 self.private_key,
             )
             return await rainmakr.buy_meme()
+        
+        if task == "rarible":
+            rarible = Rarible(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+            )
+            return await rarible.mint_nft()
         
         logger.error(f"{self.account_index} | Task {task} not found")
         return False
