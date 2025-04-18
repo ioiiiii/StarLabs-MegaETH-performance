@@ -133,6 +133,12 @@ class SuperBoard:
                 json=json_data,
             )
 
+            if "User not found" in str(response.text):
+                if not await self._register(payload, signature):
+                    raise Exception("Failed to register")
+                else:
+                    return await self._login()
+            
             if response.status_code < 200 or response.status_code > 299:
                 raise Exception(response.text)
 
@@ -160,6 +166,60 @@ class SuperBoard:
             )
             await asyncio.sleep(random_pause)
             raise
+    
+    async def _register(self, payload, signature):
+        try:
+            headers = {
+                'accept': '*/*',
+                'authorization': 'Bearer undefined',
+                'content-type': 'application/json',
+                'origin': 'https://superboard.xyz',
+            }
+
+            params = {
+                'batch': '1',
+            }
+
+            json_data = {
+                '0': {
+                    'wallets': [
+                        {
+                            'walledId': 10,
+                            'walletName': 'Rabby',
+                            'description': '',
+                            'networks': [
+                                {
+                                    'networkId': 1,
+                                    'address': self.wallet.address,
+                                    'family': 'ETHEREUM',
+                                    'verify': {
+                                        'header': {
+                                            't': 'eip191',
+                                        },
+                                        'payload': payload,
+                                        'signature': signature,
+                                    },
+                                },
+                            ],
+                        },
+                    ],
+                    'uiProperties': {
+                        'avatar': '',
+                        'headerImage': '',
+                        'language': 'ENGLISH',
+                    },
+                },
+            }
+
+            response = await self.session.post('https://api-prod.superboard.xyz/api/trpc/user.register', params=params, headers=headers, json=json_data)
+            
+            if response.status_code < 200 or response.status_code > 299:
+                raise Exception(response.text)
+
+            return True
+        except Exception as e:
+            logger.error(f"{self.account_index} | Error registering: {e}")
+            return False
 
     @retry_async(default_value=None)
     async def _get_quests(self, campaign_slug: str):
