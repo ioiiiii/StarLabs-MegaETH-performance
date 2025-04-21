@@ -5,6 +5,7 @@ import random
 import asyncio
 
 from src.model.projects.domains import ConftApp
+from src.model.projects.deploy.zkcodex import ZkCodex
 from src.model.projects.other.superboard.instance import SuperBoard
 from src.model.projects.mints.rarible.instance import Rarible
 from src.model.projects.swaps.rainmakr import Rainmakr
@@ -435,6 +436,17 @@ class Start:
                 self.private_key,
             )
             return await conft_app.mint()
+        
+        if task == "zkcodex":
+            zkcodex = ZkCodex(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+                self.private_key,
+            )
+            return await zkcodex.deploy()
         
         logger.error(f"{self.account_index} | Task {task} not found")
         return False

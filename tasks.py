@@ -23,6 +23,7 @@ RAINMAKR = ["rainmakr"]
 RARIBLE = ["rarible"]
 SUPERBOARD = ["superboard"]
 CONFT_APP = ["conft_app"]
+ZKCODEX = ["zkcodex"]
 """
 EN:
 You can create your own task with the modules you need 
@@ -89,4 +90,5 @@ rainmakr - buy meme token at https://rainmakr.xyz/en/rainai
 rarible - mint NFT at https://testnet.rarible.fun/collections/megaethtestnet/0xb8027dca96746f073896c45f65b720f9bd2afee7/drops
 superboard - complete quests at https://superboard.xyz/campaign/megaeth-testnet-real-time-era
 conft_app - mint NFT and domain at https://conft.app/quests/6342 | Every mint costs 0.0013 ETH
+zkcodex - deploys on https://zkcodex.com/onchain/deploy
 """
