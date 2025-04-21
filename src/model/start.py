@@ -4,6 +4,7 @@ import primp
 import random
 import asyncio
 
+from src.model.projects.domains import ConftApp
 from src.model.projects.other.superboard.instance import SuperBoard
 from src.model.projects.mints.rarible.instance import Rarible
 from src.model.projects.swaps.rainmakr import Rainmakr
@@ -423,6 +424,17 @@ class Start:
                 self.private_key,
             )
             return await superboard.quests()
+        
+        if task == "conft_app":
+            conft_app = ConftApp(
+                self.account_index,
+                self.session,
+                self.megaeth_web3,
+                self.config,
+                self.wallet,
+                self.private_key,
+            )
+            return await conft_app.mint()
         
         logger.error(f"{self.account_index} | Task {task} not found")
         return False
