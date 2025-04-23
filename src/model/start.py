@@ -405,7 +405,7 @@ class Start:
             )
             return await rainmakr.buy_meme()
         
-        if task == "rarible":
+        if "rarible" in task:
             rarible = Rarible(
                 self.account_index,
                 self.session,
@@ -413,7 +413,10 @@ class Start:
                 self.config,
                 self.wallet,
             )
-            return await rarible.mint_nft()
+            if task == "rarible":
+                return await rarible.mint_nft()
+            elif task == "rarible_nacci":
+                return await rarible.mint_nft_nacci()
         
         if task == "superboard":
             superboard = SuperBoard(

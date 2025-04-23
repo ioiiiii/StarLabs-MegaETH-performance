@@ -21,6 +21,7 @@ HOPNETWORK = ["hopnetwork"]
 OWLTO = ["owlto"]
 RAINMAKR = ["rainmakr"]
 RARIBLE = ["rarible"]
+RARIBLE_NACCI = ["rarible_nacci"]
 SUPERBOARD = ["superboard"]
 CONFT_APP = ["conft_app"]
 ZKCODEX = ["zkcodex"]
@@ -91,4 +92,5 @@ rarible - mint NFT at https://testnet.rarible.fun/collections/megaethtestnet/0xb
 superboard - complete quests at https://superboard.xyz/campaign/megaeth-testnet-real-time-era
 conft_app - mint NFT and domain at https://conft.app/quests/6342 | Every mint costs 0.0013 ETH
 zkcodex - deploys on https://zkcodex.com/onchain/deploy
+rarible_nacci - mint NFT at https://testnet.rarible.fun/collections/megaethtestnet/0xf1f50d5a9a629bf663d7c90a83070a36b367c3a1/drops
 """
