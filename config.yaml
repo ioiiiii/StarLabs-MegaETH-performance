@@ -36,7 +36,7 @@ SETTINGS:
     
     # random pause before start of every account
     # to make sure that all accounts will be started at different times
-    RANDOM_INITIALIZATION_PAUSE: [3, 30]
+    RANDOM_INITIALIZATION_PAUSE: [3, 40]
     
     # if true, bot will send logs to telegram
     SEND_TELEGRAM_LOGS: false
@@ -106,6 +106,15 @@ MINTS:
         BALANCE_PERCENTAGE_TO_BUY: [2, 5]
         # contracts of meme tokens to buy
         CONTRACTS_TO_BUY: []
+
+    RARIBLE:
+        # contracts of meme tokens to buy
+        CONTRACTS_TO_BUY: [
+          "0xf9c45ec2b4faab4d89f324fa445b968daa891436",
+          "0x61c584ad78a705e1b0f4094bb2c87ddb4546614c",
+          "0xbbb77ccbf8866559a2e40ba8a0d878d2603788dd",
+          "0xb8027dca96746f073896c45f65b720f9bd2afee7"
+          ]
 
     OMNIHUB:
         # max price of NFT to mint
